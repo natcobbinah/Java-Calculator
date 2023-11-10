@@ -24,8 +24,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
-
 public class CalcMainframe extends JFrame {
 
 	/**
@@ -36,11 +34,10 @@ public class CalcMainframe extends JFrame {
 	private CalcButtons calcbuttons;
 	private About about;
 	private Manual manual;
-	private GraphPanel graphPanel;
 	private Historytxtfd historytxtfd;
 
 	public CalcMainframe() {
-		super("TANK CALCULATOR");
+		super("TANK CALCULATOR v3");
 
 		createGUI();
 
@@ -49,12 +46,11 @@ public class CalcMainframe extends JFrame {
 
 	public void createGUI() {
 
-		try {
-			UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
-		} catch (UnsupportedLookAndFeelException | ParseException e) {
-			// TODO Auto-generated catch block
-		}
-
+		/*
+		 * try { UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel()); } catch
+		 * (UnsupportedLookAndFeelException | ParseException e) { // TODO Auto-generated
+		 * catch block }
+		 */
 		setSize(700, 530);
 
 		setResizable(false);
@@ -67,7 +63,6 @@ public class CalcMainframe extends JFrame {
 
 		displaytxtfd = new CalcTxtField();
 		calcbuttons = new CalcButtons();
-		graphPanel = new GraphPanel();
 		historytxtfd = new Historytxtfd();
 		
 		calcbuttons.setHistoryandDisplayListener(new HistoryandDisplaytxtfdListener() {
@@ -76,8 +71,8 @@ public class CalcMainframe extends JFrame {
 				displaytxtfd.appendText(text, btnText);
 			}
 
-			public void clearTextEmitted() {
-				displaytxtfd.clearTextField();
+			public void compute_ReversePolishNotation() {
+				displaytxtfd.compute_ReversePolishNotation();
 			}
 
 			public void clearTextOneAtaTime() {
@@ -87,6 +82,12 @@ public class CalcMainframe extends JFrame {
 			public void computeSolution() {
 				displaytxtfd.computeSolutions();				
 			}
+
+			@Override
+			public void clearTextField() {
+				displaytxtfd.clearTextField();
+			}
+
 		});
 		
 		//----DISPLAY AND HISTORY PANEL MERGE
@@ -117,17 +118,18 @@ public class CalcMainframe extends JFrame {
 		JMenuItem exitItem = new JMenuItem("Exit");
 		fileMenu.add(exitItem);
 
-		JMenu windowMenu = new JMenu("Quadratic Equation");
-		JMenuItem solveQuadraticMenuItem = new JMenuItem("Solve Quadratic Equation");
-		JMenuItem graphMenuItem = new JMenuItem("Show Quadratic Graph");
-		windowMenu.add(solveQuadraticMenuItem);
-		windowMenu.add(graphMenuItem);
 		
-		solveQuadraticMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				displaytxtfd.quadraticEqnsolver();
-			}
-		});
+		//JMenu windowMenu = new JMenu("Quadratic Equation");
+		//JMenuItem solveQuadraticMenuItem = new JMenuItem("Solve Quadratic Equation");
+		//JMenuItem graphMenuItem = new JMenuItem("Show Quadratic Graph");
+		//windowMenu.add(solveQuadraticMenuItem);
+		//windowMenu.add(graphMenuItem);
+		
+		//solveQuadraticMenuItem.addActionListener(new ActionListener() {
+		//	public void actionPerformed(ActionEvent e) {
+		//		displaytxtfd.quadraticEqnsolver(); //functionality degraded in this current version
+		//	}
+		//});
 		
 		JMenu historyMenu = new JMenu("History");
 		JMenuItem showhistoryMenuItem = new JMenuItem("Show History");
@@ -155,17 +157,18 @@ public class CalcMainframe extends JFrame {
 			}	
 		});
 		
-		JMenu matrixMenu = new JMenu("Systems of Equations");
-		JMenuItem matrixMenuItem = new JMenuItem("Show Equation Field");
-		JMenuItem gaussjordanMenuItem = new JMenuItem("Solve Equation using Gauss Jordan");
-		JMenuItem gaussianMenuItem = new JMenuItem("Solve Equation using Gaussian");
-		JMenuItem ludecompMenuItem = new JMenuItem("Solve Equation lower upper decomposition");
-		JMenuItem inverseMenuItem = new JMenuItem("Solve the inverse of Matrix");
-		matrixMenu.add(matrixMenuItem);
-		matrixMenu.add(gaussjordanMenuItem);
-		matrixMenu.add(gaussianMenuItem);
-		matrixMenu.add(ludecompMenuItem);
-		matrixMenu.add(inverseMenuItem);
+		/*
+		 * JMenu matrixMenu = new JMenu("Systems of Equations"); JMenuItem
+		 * matrixMenuItem = new JMenuItem("Show Equation Field"); JMenuItem
+		 * gaussjordanMenuItem = new JMenuItem("Solve Equation using Gauss Jordan");
+		 * JMenuItem gaussianMenuItem = new JMenuItem("Solve Equation using Gaussian");
+		 * JMenuItem ludecompMenuItem = new
+		 * JMenuItem("Solve Equation lower upper decomposition"); JMenuItem
+		 * inverseMenuItem = new JMenuItem("Solve the inverse of Matrix");
+		 * matrixMenu.add(matrixMenuItem); matrixMenu.add(gaussjordanMenuItem);
+		 * matrixMenu.add(gaussianMenuItem); matrixMenu.add(ludecompMenuItem);
+		 * matrixMenu.add(inverseMenuItem);
+		 */
 		
 		JMenu helpMenu = new JMenu("Help");
 		JMenuItem manualItem = new JMenuItem("Manual");
@@ -174,9 +177,9 @@ public class CalcMainframe extends JFrame {
 		helpMenu.add(aboutItem);
 
 		menuBar.add(fileMenu);
-		menuBar.add(windowMenu);
+		//menuBar.add(windowMenu);
 		menuBar.add(historyMenu);
-		menuBar.add(matrixMenu);
+		//menuBar.add(matrixMenu);
 		menuBar.add(helpMenu);
 		
 		manualItem.addActionListener(new ActionListener() {

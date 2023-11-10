@@ -11,6 +11,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -39,12 +42,13 @@ public class CalcButtons extends JPanel implements ActionListener {
 	private JButton btntimes;
 	private JButton btndivide;
 	private JButton btnback;
-	private JButton btnclear;
-	private JButton btnsine;
-	private JButton btncos;
+	private JButton btnRPN;
+	private JButton btnClear;
+	//private JButton btnAccumulatorClear; //not used anymore
 	private JButton btnexponent;
 	private JButton btnsquareroot;
 	private JButton btnequalsto;
+	
 
 	private JPanel basicbuttonpanels;
 	private JPanel advancedbuttonpanels2;
@@ -53,7 +57,7 @@ public class CalcButtons extends JPanel implements ActionListener {
 	private JButton btndot;
 	private JButton btnxfact;
 	private JButton btncombination;
-	
+
 	private JButton btnln;
 	private JButton btngamma;
 	private JButton btnph;
@@ -78,79 +82,50 @@ public class CalcButtons extends JPanel implements ActionListener {
 		btntan = new JButton("tan");
 		btnlog = new JButton("log");
 		btnlog.setToolTipText("Log of:");
-		
+
 		btnplus = new JButton("+");
 		btnminus = new JButton("-");
-		btntimes = new JButton("x");
+		btntimes = new JButton("*");
 		btndivide = new JButton("/");
 		btnback = new JButton("←");
-		btnclear = new JButton("Clear");
-		btnsine = new JButton("sin");
-		btncos = new JButton("cos");
+		btnRPN = new JButton("RPN Expr");
+		btnClear = new JButton("C");
+		//btnAccumulatorClear = new JButton("AC");
 		btnexponent = new JButton("^");
-		
+
 		btnsquareroot = new JButton("√");
 		btnsquareroot.setToolTipText("Square root of:");
-		
+
 		btnequalsto = new JButton("=");
 
 		// ---------ADVANCED MODE BUTTONS-----------------//
 		btndot = new JButton(".");
 		btnxfact = new JButton("!");
 		btnxfact.setToolTipText("Factorial of:");
-		
+
 		btncombination = new JButton("C");
 		btncombination.setToolTipText("Combination:");
-		
+
 		btnln = new JButton("ln");
 		btngamma = new JButton("Γ");
 		btngamma.setToolTipText("Gamma of:");
-		
+
 		btnph = new JButton("ph");
 		btnpermutation = new JButton("P");
 		btnpermutation.setToolTipText("Permutation of:");
-		
+
 		btnopenbrace = new JButton("(");
 		btnclosebrace = new JButton(")");
 
 		// -----------------------------------------------------------//
-
-		btnone.addActionListener(this);
-		btntwo.addActionListener(this);
-		btnthree.addActionListener(this);
-		btnfour.addActionListener(this);
-		btnfive.addActionListener(this);
-		btnsix.addActionListener(this);
-		btnseven.addActionListener(this);
-		btneight.addActionListener(this);
-		btnnine.addActionListener(this);
-		btnzero.addActionListener(this);
-		btntan.addActionListener(this);
-		btnlog.addActionListener(this);
-		btnplus.addActionListener(this);
-		btnminus.addActionListener(this);
-		btntimes.addActionListener(this);
-		btndivide.addActionListener(this);
-		btnback.addActionListener(this);
-		btnclear.addActionListener(this);
-		btnsine.addActionListener(this);
-		btncos.addActionListener(this);
-		btnexponent.addActionListener(this);
-		btnsquareroot.addActionListener(this);
-		btnequalsto.addActionListener(this);
-
-		// ------ADVANCED MODE BUTTONS-----------------------
-		btndot.addActionListener(this);
-		btnxfact.addActionListener(this);
-		btncombination.addActionListener(this);
+		JButton[] setBtnActionListeners = new JButton[] { btnone, btntwo, btnthree, btnfour, btnfive, btnsix, btnseven,
+				btneight, btnnine, btnzero, btntan, btnlog, btnplus, btnminus, btntimes, btndivide, btnback, btnRPN,
+				btnClear, btnexponent, btnsquareroot, btnequalsto, btndot, btnxfact, btncombination,
+				btnopenbrace, btnclosebrace, btnln, btngamma, btnph, btnpermutation };
 		
-		btnopenbrace.addActionListener(this);
-		btnclosebrace.addActionListener(this);
-		btnln.addActionListener(this);
-		btngamma.addActionListener(this);
-		btnph.addActionListener(this);
-
-		btnpermutation.addActionListener(this);
+		for(JButton btn : setBtnActionListeners) {
+			btn.addActionListener(this);
+		}
 		// -------------------------------------------------
 
 		layoutdesign();
@@ -194,8 +169,8 @@ public class CalcButtons extends JPanel implements ActionListener {
 
 		gc.gridx = 5;
 		gc.gridy = 0;
-		basicbuttonpanels.add(btnsine, gc);	
-		
+		basicbuttonpanels.add(btnClear, gc);
+
 		// second row
 		gc.gridx = 0;
 		gc.gridy = 1;
@@ -215,11 +190,11 @@ public class CalcButtons extends JPanel implements ActionListener {
 
 		gc.gridx = 4;
 		gc.gridy = 1;
-		basicbuttonpanels.add(btnclear, gc);
+		basicbuttonpanels.add(btnRPN, gc);
 
-		gc.gridx = 5;
-		gc.gridy = 1;
-		basicbuttonpanels.add(btncos, gc);
+		//gc.gridx = 5;
+		//gc.gridy = 1;
+		//basicbuttonpanels.add(btnAccumulatorClear, gc);
 
 		// third row
 		gc.gridx = 0;
@@ -244,7 +219,7 @@ public class CalcButtons extends JPanel implements ActionListener {
 
 		gc.gridx = 5;
 		gc.gridy = 2;
-		basicbuttonpanels.add(btntan, gc);
+		basicbuttonpanels.add(btndot, gc);
 
 		// fourth row
 		gc.gridx = 0;
@@ -255,11 +230,11 @@ public class CalcButtons extends JPanel implements ActionListener {
 		gc.gridx = 1;
 		gc.gridy = 3;
 		gc.fill = GridBagConstraints.HORIZONTAL;
-		basicbuttonpanels.add(btnsquareroot, gc);
+		basicbuttonpanels.add(btnopenbrace, gc);
 
 		gc.gridx = 2;
 		gc.gridy = 3;
-		basicbuttonpanels.add(btnlog, gc);
+		basicbuttonpanels.add(btnclosebrace, gc);
 
 		gc.gridx = 3;
 		gc.gridy = 3;
@@ -291,8 +266,9 @@ public class CalcButtons extends JPanel implements ActionListener {
 		gc4.ipady = 10;
 		gc4.insets = new Insets(2, 2, 2, 2);
 		gc4.anchor = GridBagConstraints.NORTHWEST;
-		advancedbuttonpanels2.add(btndot, gc4);
-		
+		// advancedbuttonpanels2.add(btndot, gc4); //tan btn position exchanged with
+		// this
+
 		Dimension btndotsize = btndot.getPreferredSize();
 
 		// ------------------------------------------------------
@@ -320,23 +296,24 @@ public class CalcButtons extends JPanel implements ActionListener {
 
 		gc4.gridx = 0;
 		gc4.gridy = 2;
-		advancedbuttonpanels2.add(btnopenbrace, gc4);
+		// advancedbuttonpanels2.add(btnopenbrace, gc4); //squareroot btn exchanged with
+		// this
 
 		// ------------------------------------------------------
 		btnclosebrace.setPreferredSize(btndotsize);
 
 		gc4.gridx = 1;
 		gc4.gridy = 2;
-		advancedbuttonpanels2.add(btnclosebrace, gc4);
+		// advancedbuttonpanels2.add(btnclosebrace, gc4);//log btn exchanged with this
 
 		btnpermutation.setPreferredSize(btndotsize);
 
 		gc4.gridx = 0;
 		gc4.gridy = 3;
 		advancedbuttonpanels2.add(btnpermutation, gc4);
-		
+
 		btnxfact.setPreferredSize(btndotsize);
-		
+
 		gc4.gridx = 1;
 		gc4.gridy = 3;
 		advancedbuttonpanels2.add(btnxfact, gc4);
@@ -350,102 +327,49 @@ public class CalcButtons extends JPanel implements ActionListener {
 		advancedbuttonpanels2.add(btncombination, gc4);
 		// -----------------------------------------------------
 
-		add(advancedbuttonpanels2, BorderLayout.EAST);
+		// add(advancedbuttonpanels2, BorderLayout.EAST);
 
-		advancedbuttonpanels2.setBorder(BorderFactory.createEtchedBorder());
+		// advancedbuttonpanels2.setBorder(BorderFactory.createEtchedBorder());
 
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		JButton clicked = (JButton) e.getSource();
 
-		if (clicked == btnone) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("1", btnone);
-			}
-		}
+		Map<String, JButton> buttonPressed = new HashMap<>();
+		buttonPressed.put(" 1 ", btnone);
+		buttonPressed.put(" 2 ", btntwo);
+		buttonPressed.put(" 3 ", btnthree);
+		buttonPressed.put(" 4 ", btnfour);
+		buttonPressed.put(" 5 ", btnfive);
+		buttonPressed.put(" 6 ", btnsix);
+		buttonPressed.put(" 7 ", btnseven);
+		buttonPressed.put(" 8 ", btneight);
+		buttonPressed.put(" 9 ", btnnine);
+		buttonPressed.put(" 0 ", btnzero);
+		buttonPressed.put(" + ", btnplus);
+		buttonPressed.put(" - ", btnminus);
+		buttonPressed.put(" x ", btntimes);
+		buttonPressed.put(" / ", btndivide);
+		buttonPressed.put(" ( ", btnopenbrace);
+		buttonPressed.put(" ) ", btnclosebrace);
+		buttonPressed.put(" . ", btndot);
+		buttonPressed.put(" ^ ", btnexponent);
+		buttonPressed.put(" log ", btnlog);
+		buttonPressed.put(" tan ", btntan);
+		buttonPressed.put(" √ ", btnsquareroot);
+		buttonPressed.put(" ! ", btnxfact);
+		buttonPressed.put(" C ", btncombination);
+		buttonPressed.put(" ln ", btnln);
+		buttonPressed.put(" Γ ", btngamma);
+		buttonPressed.put(" ph ", btnph);
+		buttonPressed.put(" P ", btnpermutation);
 
-		 if (clicked == btntwo) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("2", btntwo);
-			}
-		}
-
-		if (clicked == btnthree) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("3", btnthree);
-			}
-		}
-
-		if (clicked == btnfour) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("4", btnfour);
-			}
-		}
-
-		if (clicked == btnfive) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("5", btnfive);
-			}
-		}
-
-		if (clicked == btnsix) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("6", btnsix);
-			}
-		}
-
-		if (clicked == btnseven) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("7", btnseven);
-			}
-		}
-
-		if (clicked == btneight) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("8", btneight);
-			}
-		}
-
-		if (clicked == btnnine) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("9", btnnine);
-			}
-		}
-
-		if (clicked == btnzero) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("0", btnzero);
-			}
-		}
-
-		if (clicked == btnlog) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("log", btnlog);
-			}
-		}
-
-		if (clicked == btnplus) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("+", btnplus);
-			}
-		}
-
-		if (clicked == btnminus) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("-", btnminus);
-			}
-		}
-
-		if (clicked == btntimes) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("x", btntimes);
-			}
-		}
-
-		if (clicked == btndivide) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("/", btndivide);
+		for (Map.Entry<String, JButton> btnSymbol : buttonPressed.entrySet()) {
+			if (clicked == btnSymbol.getValue()) {
+				if (histdisplaylistener != null) {
+					histdisplaylistener.buttonTextEmitted(btnSymbol.getKey(), clicked);
+				}
 			}
 		}
 
@@ -455,96 +379,22 @@ public class CalcButtons extends JPanel implements ActionListener {
 			}
 		}
 
-		if (clicked == btnclear) {
+		if (clicked == btnRPN) {
 			if (histdisplaylistener != null) {
-				histdisplaylistener.clearTextEmitted();
-			}
-		}
-
-		if (clicked == btnsine) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("sin", btnsine);
-			}
-		}
-
-		if (clicked == btncos) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("cos", btncos);
+				histdisplaylistener.compute_ReversePolishNotation();
 			}
 		}
 		
-		if (clicked == btntan) {
+		if (clicked == btnClear) {
 			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("tan", btntan);
+				histdisplaylistener.clearTextField();
 			}
 		}
-
-		if (clicked == btnexponent) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("^", btnexponent);
-			}
-		}
-
-		if (clicked == btnsquareroot) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("√", btnsquareroot);
-			}
-		}
-
-		// -------------------ADVANCED MODE-------------------------------------------//
-		if (clicked == btndot) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted(".", btndot);
-			}
-		}
-
-		if (clicked == btnxfact) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("!", btnxfact);
-			}
-		}
-
-		if (clicked == btncombination) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("C", btncombination);
-			}
-		}
-
-		if (clicked == btnln) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("ln", btnln);
-			}
-		}
-
-		if (clicked == btngamma) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("Γ", btngamma);
-			}
-		}
-
-		if (clicked == btnph) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("ph", btnph);
-			}
-		}
-
-		if (clicked == btnpermutation) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("P", btnpermutation);
-			}
-		}
-
-		if (clicked == btnopenbrace) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted("(", btnopenbrace);
-			}
-		}
-
-		if (clicked == btnclosebrace) {
-			if (histdisplaylistener != null) {
-				histdisplaylistener.buttonTextEmitted(")", btnclosebrace);
-			}
-		}
+		
+		/*
+		 * if (clicked == btnAccumulatorClear) { if (histdisplaylistener != null) {
+		 * histdisplaylistener.clearAccumulator(); } }
+		 */
 
 		if (clicked == btnequalsto) {
 			if (histdisplaylistener != null) {

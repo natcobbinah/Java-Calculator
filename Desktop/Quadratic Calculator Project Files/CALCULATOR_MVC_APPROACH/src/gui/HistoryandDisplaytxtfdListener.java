@@ -6,10 +6,11 @@ public interface HistoryandDisplaytxtfdListener {
 
 	public void buttonTextEmitted(String text, JButton btnText);
 	
-	public void clearTextEmitted();
+	public void compute_ReversePolishNotation();
 
 	public void clearTextOneAtaTime();
 	
     public void computeSolution();
 
+	public void clearTextField();
 }

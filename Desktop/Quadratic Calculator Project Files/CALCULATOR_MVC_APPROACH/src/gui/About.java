@@ -68,17 +68,14 @@ public class About  extends JFrame{
 		
 		txtarea = new JTextArea(15,1);
 		txtarea.setBackground(Color.WHITE);
-		String aboutmsg =     "Version 2.0" + "\n"
+		String aboutmsg =     "Version 3.0" + "\n"
 				            + "Author: Nathaniel Cobbinah" + "\n"
 						    + "Email:fmg3ckali@gmail.com" + "\n"
 					        + "Email2:baby.hugo74@yahoo.com" + "\n"
-			            	+ "(c) Copyright Tank Contributors and Others 2017" + "\n"
-						    + "All rights reserved. This product includes software" + "\n"
-						    + "developed by other projects including synthetica libraries" + "\n"
-						    + "From Jyloo Softwares(http://synthetica.com)" + "\n\n"
-						    + "NOTE\n"
-						    + "This Calculator supports only (one operator) calculation" + "\n"
-						    + "at a time";
+			            	+ "(c) Copyright Tank Contributors and Others 2017 - 2023" + "\n"
+						    + "This Calculator all operator calculator operations at a single time" + "\n"
+						    + "and also generates the reverse polish notation (postfix) version of a given" + "\n"
+						    + "mathematical expression";
 		txtarea.setEditable(false);
 		
 		font = new Font("Monospace", Font.PLAIN, 11);

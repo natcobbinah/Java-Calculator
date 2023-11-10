@@ -15,7 +15,7 @@ public class Historytxtfd extends JPanel {
 
 	public Historytxtfd() {
 
-		historyarea = new JTextArea(5, 70);
+		historyarea = new JTextArea(5, 55);
 
 		font = new Font("Courier", Font.BOLD, 15);
 
