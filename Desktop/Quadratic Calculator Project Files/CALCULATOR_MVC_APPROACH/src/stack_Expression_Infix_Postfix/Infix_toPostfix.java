@@ -23,10 +23,16 @@ public class Infix_toPostfix {
 		}
 	}
 
-	public static String toPostfix(String math_expression) {
+	public static String[] toPostfix(String math_expression) {
 		String postfix_expr = "";
+		
+		//remove all whitespaces from string
+        math_expression = TokenizeExpression.removeAllWhiteSpaces(math_expression);
 
-		for (String term : math_expression.split("\\s+")) { // split by spaces
+        String cleanedExpression = ConvertTo_StandardExpression.standardized_Expression(math_expression);
+        String[] tokenizedExpression = TokenizeExpression.tokenize(cleanedExpression);
+
+		for (String term : tokenizedExpression) { // split by spaces
 			if (rank(term) == 0) {
 				stack.push(term);
 			} else if (term.equals(")")) {
@@ -53,6 +59,6 @@ public class Infix_toPostfix {
 			postfix_expr += stack.pop();
 		}
 
-		return postfix_expr;
+		return TokenizeExpression.splitByWhiteSpaces(postfix_expr);
 	}
 }

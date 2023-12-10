@@ -73,7 +73,7 @@ public class About  extends JFrame{
 						    + "Email:fmg3ckali@gmail.com" + "\n"
 					        + "Email2:baby.hugo74@yahoo.com" + "\n"
 			            	+ "(c) Copyright Tank Contributors and Others 2017 - 2023" + "\n"
-						    + "This Calculator all operator calculator operations at a single time" + "\n"
+						    + "This Calculator  supports PEDMAS order of arithmetic computation" + "\n"
 						    + "and also generates the reverse polish notation (postfix) version of a given" + "\n"
 						    + "mathematical expression";
 		txtarea.setEditable(false);

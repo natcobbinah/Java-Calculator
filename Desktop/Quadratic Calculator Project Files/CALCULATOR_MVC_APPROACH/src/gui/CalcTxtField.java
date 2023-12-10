@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -118,15 +119,18 @@ public class CalcTxtField extends JPanel {
 
 	public void compute_ReversePolishNotation() {
 
-		String evaluated_RPN = Infix_toPostfix.toPostfix(displaytxtfd.getText());
+		String[] evaluated_RPN = Infix_toPostfix.toPostfix(displaytxtfd.getText());
 
-		if (historylistener != null) {
-			historylistener.textEmitted(displaytxtfd.getText() + " = " + evaluated_RPN + "\n");
+		String reversePolishNotation = "";
+		for(String val : evaluated_RPN) {
+			reversePolishNotation += val;
 		}
-
-		// placed below the historyText area bcos otherwise, we wouldn't get the
-		// expression, but only the answer in the history textarea
-		displaytxtfd.setText(evaluated_RPN);
+		
+		if (historylistener != null) {
+			historylistener.textEmitted(displaytxtfd.getText() + " = " + reversePolishNotation + "\n");
+		}
+		
+		displaytxtfd.setText(reversePolishNotation);
 	}
 
 }

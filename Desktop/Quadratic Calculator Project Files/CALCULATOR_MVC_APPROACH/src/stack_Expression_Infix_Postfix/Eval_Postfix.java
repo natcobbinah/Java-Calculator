@@ -23,8 +23,11 @@ public class Eval_Postfix {
 		}
 	}
 
-	public static double evalPostfix(String expr) {
-		for (String term : expr.split("\\s+")) {
+	public static double evalPostfix(String[] expr) {
+		
+		String final_result = "";
+		
+		for (String term : expr) {
 			if (term.equals("+") || term.equals("-") || term.equals("/") || term.equals("*") || term.equals("^")) {
 				String rhs_operand = stack.pop();
 				String lhs_operand = stack.pop();
@@ -34,6 +37,16 @@ public class Eval_Postfix {
 				stack.push(term);
 			}
 		}
-		return Double.parseDouble(stack.pop());
+		
+		 // should in case only operand with no operators are keyed as input
+        if (stack.size() > 1) {
+            while (!stack.isEmpty()) {
+                final_result += stack.pop();
+            }
+            return Double.parseDouble(final_result);
+        }
+        else {
+            return Double.parseDouble(stack.pop());
+        }
 	}
 }
